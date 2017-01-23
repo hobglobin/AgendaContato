@@ -1,4 +1,4 @@
-package teste.agendacontato;
+package teste.agendacontato.Database;
 
 /**
  * Created by LuizFilipeFerreira on 1/23/2017.

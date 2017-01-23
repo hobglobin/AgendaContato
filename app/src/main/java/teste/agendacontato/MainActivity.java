@@ -7,10 +7,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.database.sqlite.*;
+
+import teste.agendacontato.Database.DataBase;
+import teste.agendacontato.Dominio.Contato_repositorio;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,9 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnAdicionar;
     private EditText edtPesquisa;
     private ListView lstContatos;
+    private ArrayAdapter<String> adpContatos;
 
     private SQLiteDatabase conn;
     private DataBase erro;
+    private Contato_repositorio repositorio;
 
 
 
@@ -37,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
        try {
            erro = new DataBase(this);
-           conn = erro.getReadableDatabase();
+           conn = erro.getWritableDatabase();
+
+           repositorio=new Contato_repositorio(conn);
+           repositorio.testeInserircontatos();
+           adpContatos= repositorio.buscacontatos(this);
+
+           lstContatos.setAdapter(adpContatos);
 
            AlertDialog.Builder dlg= new AlertDialog.Builder(this);
            dlg.setMessage("Successful");
